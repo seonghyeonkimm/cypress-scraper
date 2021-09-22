@@ -3,5 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "demian <demian@kcd.co.kr>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "cypress:open": "cypress open"
+  },
+  "devDependencies": {
+    "cypress": "^8.4.1"
+  }
 }
