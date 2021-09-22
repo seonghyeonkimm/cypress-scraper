@@ -19,6 +19,7 @@ const findEmptyRoom = (year, month) => {
       return null;
     }).filter(Boolean).get();
     
+    console.log('🚀 ~ data', data);
     return data;
   });
 }

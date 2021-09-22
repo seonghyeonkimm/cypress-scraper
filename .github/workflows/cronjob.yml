@@ -1,6 +1,11 @@
 name: Check Jirye Empty Room
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '0 5 * * 1-5'
 
 jobs:
   cypress-run:
