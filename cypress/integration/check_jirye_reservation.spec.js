@@ -46,16 +46,13 @@ const createMessageBlock = ({
 
 describe('Check Jirye Reservation', () => {
   let messageBlocks = [];
+  const changeDate = (year, month) => {
+    cy.get('[name="Syear"]').select(year.toString());
+    cy.get('[name="Smonth"]').select(month.toString());
+    cy.get('.search').click();
+  };
+
   const findEmptyRoom = (year, month) => {
-    cy.visit('http://www.jirye.com/Book/booklist.php', {
-      method: 'POST',
-      body: {
-        Syear: year,
-        Smonth: month,
-      },
-    });
-
-
     cy.get('span[title="예약가능"]').should($elements => {
       const data = $elements.map((i, el) => {
         const date = el.parentNode.parentNode.querySelector('h1').textContent.trim();
@@ -83,21 +80,24 @@ describe('Check Jirye Reservation', () => {
         message: data.join('\n'),
       }));
     });
-  }
+  };
+
+  before(() => {
+    cy.visit('http://www.jirye.com/Book');
+  })
 
   after(() => {
     sendSlack(messageBlocks);
   });
 
-  it('check 2021-10', () => {
+  it('check reservation', () => {
+    changeDate(2021, 10);
     findEmptyRoom(2021, 10);
-  });
 
-  it('check 2021-11', () => {
+    changeDate(2021, 11);
     findEmptyRoom(2021, 11);
-  });
 
-  it('check 2021-12', () => {
+    changeDate(2021, 12);
     findEmptyRoom(2021, 12);
   });
 })
