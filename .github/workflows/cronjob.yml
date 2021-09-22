@@ -10,6 +10,8 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    env:
+      CYPRESS_SLACK_WEBHOOK_URL: ${{ secrets.CYPRESS_SLACK_WEBHOOK_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
