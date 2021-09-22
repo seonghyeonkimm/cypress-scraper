@@ -24,7 +24,7 @@ const findEmptyRoom = (year, month) => {
   });
 }
 
-describe('example to-do app', () => {
+describe('Check Jirye Reservation', () => {
   it('check 2021-10', () => {
     findEmptyRoom(2021, 10);
   });
