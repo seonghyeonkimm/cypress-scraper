@@ -83,7 +83,6 @@ describe('Check Jirye Reservation', () => {
   };
 
   before(() => {
-    cy.visit('https://www.naver.com');
     cy.visit('http://www.jirye.com/Book');
   })
 
