@@ -10,7 +10,6 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    container: cypress/browsers:node12.13.0-chrome78-ff70
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -21,15 +20,3 @@ jobs:
           browser: chrome
         env:
           CYPRESS_SLACK_WEBHOOK_URL: ${{ secrets.CYPRESS_SLACK_WEBHOOK_URL }}
-
-      - uses: actions/upload-artifact@v1
-        if: failure()
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
-      # Test run video was always captured, so this action uses "always()" condition
-      - uses: actions/upload-artifact@v1
-        if: always()
-        with:
-          name: cypress-videos
-          path: cypress/videos
