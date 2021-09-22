@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - master
-  schedule:
-    - cron: '0 5 * * 1-5'
+  # schedule:
+  #   - cron: '0 5 * * 1-5'
 
 jobs:
   cypress-run:
