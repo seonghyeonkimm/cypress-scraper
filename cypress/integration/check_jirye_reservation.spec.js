@@ -91,7 +91,7 @@ describe('Check Jirye Reservation', () => {
   };
 
   before(() => {
-    cy.visit('http://www.jirye.com/Book');
+    cy.visit('http://www.jirye.com/Book/booklist.php?');
   })
 
   after(() => {
