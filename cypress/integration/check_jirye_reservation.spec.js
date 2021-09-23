@@ -1,4 +1,7 @@
-const sendSlack = (blocks) => {
+const sendSlack = ({
+  blocks,
+  shouldMention,
+}) => {
   cy.request(
     'POST',
     Cypress.env('SLACK_WEBHOOK_URL'),
@@ -8,7 +11,7 @@ const sendSlack = (blocks) => {
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": ":mag: *지례예술촌* 예약 점검 (<http://www.jirye.com/Book/booklist.php|예약하기>)"
+            "text": `:mag: *지례예술촌* 예약 점검 (<http://www.jirye.com/Book/booklist.php|예약하기>) ${shouldMention ? '<@U01J6NZDH5X>' : ''}`
           }
         },
         {
@@ -45,7 +48,8 @@ const createMessageBlock = ({
 
 
 describe('Check Jirye Reservation', () => {
-  let messageBlocks = [];
+  let shouldMention;
+  let blocks = [];
   const changeDate = (year, month) => {
     cy.get('[name="Syear"]').select(year.toString());
     cy.get('[name="Smonth"]').select(month.toString());
@@ -66,7 +70,7 @@ describe('Check Jirye Reservation', () => {
       }).filter(Boolean).get();
 
       if (data.length === 0) {
-        messageBlocks = messageBlocks.concat(createMessageBlock({
+        blocks = blocks.concat(createMessageBlock({
           year,
           month,
           message: '예약 가능한 날짜가 없습니다.',
@@ -74,7 +78,11 @@ describe('Check Jirye Reservation', () => {
         return;
       }
 
-      messageBlocks = messageBlocks.concat(createMessageBlock({
+      if (year === 2021 && month === 11) {
+        shouldMention = true;
+      }
+
+      blocks = blocks.concat(createMessageBlock({
         year,
         month,
         message: data.join('\n'),
@@ -87,7 +95,10 @@ describe('Check Jirye Reservation', () => {
   })
 
   after(() => {
-    sendSlack(messageBlocks);
+    sendSlack({
+      blocks,
+      shouldMention,
+    });
   });
 
   it('check reservation', () => {
